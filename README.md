@@ -18,6 +18,7 @@ population_handler = PopulationHandler(
                 run_stat=run_stat,
                 fitness_function=fitness_function_xor,
                 fitness_function_multiple_nets=True,
+)
 ```
 
 `initial_net_amount` is the amount of networks in the ininital population. During the evolution the size of the population will not change dramatically from the size of the initial population.

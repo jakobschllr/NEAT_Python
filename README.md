@@ -3,8 +3,10 @@
 ## Overview
 This project is a python implementation of the NEAT method (Neuro Evolution of Augmenting Topologies) by Stanley and Miikkulaien. NEAT can be used to find neural networks within an exploration space in order to solve predefined optimization problems. Besides default python libraries and numpy the projects does not use other ml-related dependencies.
 
-## Quick start
-To try the algorithm you can choose one of two predefined problems to solve. The first one is XOR and the second one is a 2D-Car that learns to drive a racetrack in a pygame environment. After downloading the repository execute `python3 init_neat.py xor` or `python3 init_neat.py car` to start the evolution process. To adjust the evolution process you can change the parameters in the config.json file (more details about this file later).
+## Quick start with XOR or 2D-Car
+To try the algorithm you can choose one of two predefined problems to solve. The first one is XOR and the second one is a 2D-Car that learns to drive a racetrack in a 2D-Simulation. After downloading the repository execute `python3 init_neat.py xor` or `python3 init_neat.py car` to start the evolution process. To adjust the evolution process you can change the parameters in the config.json file (more details about this file later).
+
+
 
 ## Use NEAT for your own problems
 To use this NEAT implementation on your own set of problems you have to create an instance of the `PopulationHandler` class which is localed in the neat_classes directory. This class requires initial parameters that need to be defined:

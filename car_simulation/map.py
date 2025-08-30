@@ -54,6 +54,14 @@ class Map():
             text_rect = btn_text.get_rect(center=btn_rect.center)
             screen.blit(btn_text, text_rect)
 
+             # draw label
+            if not drawing:
+                font = pygame.font.SysFont("Arial", 16, bold=True)
+                text_surface = font.render(f"Draw Racetrack with mouse. Make sure to draw in such a way that the car is on the track in the beginning.", True, (0, 0, 0))
+                text_rect = text_surface.get_rect(topleft=(300, 300))
+                screen.blit(text_surface, text_rect)
+
+
             # draw car at inital position
             self.draw_car(screen, car)
 

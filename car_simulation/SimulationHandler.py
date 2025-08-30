@@ -2,6 +2,9 @@ import pygame
 from .map import Map
 from .car import Car
 import time
+import math
+
+PI = math.pi
 
 class SimulationHandler():
     def __init__(self, run_stat):
@@ -34,7 +37,6 @@ class SimulationHandler():
                 "cur_pos": None,
                 "stagnation_counter": 0,
                 "is_active": True,
-                "avg_obstalce_distance": 0,
                 "checkpoint_counter": 0
                 })
     
@@ -89,21 +91,23 @@ class SimulationHandler():
                     else:
                         car["stagnation_counter"] += 1
 
-                    # update how well car keeps distance to borders
-                    average_obstacle_distance = (in_1 + in_2 + in_3 + in_4) / 4
-                    if car["avg_obstalce_distance"] == 0:
-                        car["avg_obstalce_distance"] = average_obstacle_distance
-                    else:
-                        car["avg_obstalce_distance"] = (car["avg_obstalce_distance"] + average_obstacle_distance) / 2
-
-                    survival_time = current_time - start_time
+                    # survival_time = current_time - start_time
             
                     # handle network fitness tracking
                     if car["car"].hit_obstacle:
                         car["is_active"] = False
-                        car["net"].raw_fitness = (car["checkpoint_counter"] / len(self.map.checkpoints)) + (0.2 * survival_time) + (0.8 * car["distance_traveled"]) + (0.5 * car["avg_obstalce_distance"])
+
+                        checkpoints_reached = car["checkpoint_counter"] / len(self.map.checkpoints)
+                        steering_fluidity = (1 - car["car"].steering_tracker["avg"] / PI )
+                        obstacle_distance = car["car"].obstacle_distance_tracker["avg"] / car["car"].sensor_reach
+                        # car["distance_traveled"] distance traveled euclidean
+                        # survival_time
+
+                        car["net"].raw_fitness =  checkpoints_reached + steering_fluidity + obstacle_distance
+                        
                     elif car["stagnation_counter"] == 20:
                         car["distance_traveled"] = 0
+                        car["checkpoint_counter"] = 0
                         car["is_active"] = False
                         car["net"].raw_fitness = 0
                     else:

@@ -24,6 +24,20 @@ class Car():
         self.hit_obstacle = False
         self.passed_checkpoints = set()
 
+        self.steering_tracker = {
+            "amt": 0,
+            "sum": 0,
+            "avg": 0
+        }
+
+        self.obstacle_distance_tracker = {
+            "amt": 0,
+            "sum": 0,
+            "avg": 0
+        }
+
+
+
     def get_car_corners(self):
         corner_1 = np.array([ -self.width, -self.height])
         corner_2 = np.array([self.width, -self.height])
@@ -50,7 +64,15 @@ class Car():
 
     def steer(self, value):
         # value goes from -1.0 (left) to 1.0 (right)
+        old_angle = self.angle
         self.angle += value * math.pi / 5
+        self.update_steering_tracker(old_angle, self.angle)
+
+    def update_steering_tracker(self, old_angle, new_angle):
+        self.steering_tracker["sum"] += abs(old_angle - new_angle)
+        self.steering_tracker["amt"] += 1
+        self.steering_tracker["avg"] = self.steering_tracker["sum"] / self.steering_tracker["amt"]
+        print("Average Steering Change: ", self.steering_tracker["avg"])
 
     def get_sensor_data(self, environment, screen):
         sensor_data = []
@@ -59,7 +81,14 @@ class Car():
             sensor_data.append(distance)
             if hit_obstacle:
                 self.hit_obstacle = True
+        self.update_obstacle_distance_tracker(sensor_data)
         return sensor_data
+    
+    def update_obstacle_distance_tracker(self, distances):
+            avg = sum(dist for dist in distances) / 4
+            self.obstacle_distance_tracker["amt"] += 1
+            self.obstacle_distance_tracker["sum"] += avg
+            self.obstacle_distance_tracker["avg"] = self.obstacle_distance_tracker["sum"] / self.obstacle_distance_tracker["amt"]
     
     def get_euclidean_distance(self, pos_old, pos_new):
         if pos_old != None and pos_new != None:

@@ -7,26 +7,6 @@ import sys
 # Object to track runtime status
 run_stat = RuntimeStatus()
 
-# fitness function 2D car
-simulation_handler = None
-def fitness_function_car(population): # input parameter can be a single network or a population of networks
-   simulation_handler.start_episode(population)
-
-# fitness function xor
-def fitness_function_xor(net):
-    outputs = [
-            (net.compute_inputs(0,0)[0], 0), 
-            (net.compute_inputs(0,1)[0], 1),
-            (net.compute_inputs(1,0)[0], 1),
-            (net.compute_inputs(1,1)[0], 0)
-        ]
-
-    total_error = 0
-    for out, target in outputs:
-        total_error += (out-target)**2
-
-    net.raw_fitness = 1 / (1+total_error)
-
 
 # entry point for program
 def main():
@@ -35,6 +15,22 @@ def main():
         param = sys.argv[1]
 
         if param == "xor":
+
+            # fitness function xor
+            def fitness_function_xor(net):
+                outputs = [
+                        (net.compute_inputs(0,0)[0], 0), 
+                        (net.compute_inputs(0,1)[0], 1),
+                        (net.compute_inputs(1,0)[0], 1),
+                        (net.compute_inputs(1,1)[0], 0)
+                    ]
+
+                total_error = 0
+                for out, target in outputs:
+                    total_error += (out-target)**2
+                net.raw_fitness = 1 / (1+total_error)
+
+
             population_handler = PopulationHandler(
                 initial_net_amount=150,
                 input_neurons=2,
@@ -56,7 +52,12 @@ def main():
 
         
         elif param == "car":
+
+            # fitness function 2D car
             simulation_handler = SimulationHandler(run_stat)
+            def fitness_function_car(population): # input parameter can be a single network or a population of networks
+                simulation_handler.start_episode(population)
+            
             population_handler = PopulationHandler(
                 initial_net_amount=150,
                 input_neurons=4,
@@ -74,8 +75,6 @@ def main():
             print("Invalid problem definition. Write xor or car.")
             return
         
-        
-
     else:
         print("Invalid amount of parameters.")
 

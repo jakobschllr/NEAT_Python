@@ -9,6 +9,7 @@ This project is a python implementation of the NEAT method (Neuro Evolution of A
 ```
 git clone https://github.com/jakobschllr/NEAT_Python.git
 cd NEAT_Python
+pip install -r requirements.txt
 ```
 
 The Parameters can be adjusted in the config.json (see explanations below)
@@ -49,7 +50,7 @@ population_handler = PopulationHandler(
                 run_stat=run_stat,
                 fitness_function=fitness_function_xor,
                 fitness_function_multiple_nets=True,
-                self.target_fitness = target_fitness
+                target_fitness = 0.9
 )
 ```
 | Parameter                     | Description |

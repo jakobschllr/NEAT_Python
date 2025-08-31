@@ -1,7 +1,4 @@
 
-
-
-
 class RuntimeStatus():    
     def __init__(self):
         self.current_generation = 0

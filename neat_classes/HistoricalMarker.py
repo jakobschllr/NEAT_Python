@@ -1,8 +1,3 @@
-from .neurons.input_neuron import Input_neuron
-from .neurons.output_neuron import Output_neuron
-from .neurons.hidden_neuron import Hidden_neuron
-from .neurons.neuron import Neuron
-
 class HistoricalMarker():
     def __init__(self, hidden_neurons_start_id):
         self.next_hidden_neuron_id = hidden_neurons_start_id

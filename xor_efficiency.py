@@ -2,7 +2,6 @@ from neat_classes.PopulationHandler import PopulationHandler
 from car_simulation.test import test_simulation
 from car_simulation.SimulationHandler import SimulationHandler
 from neat_classes.RuntimeStatus import RuntimeStatus
-import sys
 import matplotlib.pyplot as plt
 import numpy as np
 

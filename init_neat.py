@@ -8,7 +8,6 @@ import numpy as np
 # Object to track runtime status
 run_stat = RuntimeStatus()
 
-
 # entry point for program
 def main():
 

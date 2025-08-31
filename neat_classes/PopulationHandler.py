@@ -4,7 +4,7 @@ from .species import Species
 import json
 import copy
 
-with open("config.json", "r") as f:
+with open("config_car.json", "r") as f:
     config = json.load(f)
 
 c1 = config["c1"] # parameter to adjust influence of adjoint gene amount in compatibilty distance calculation

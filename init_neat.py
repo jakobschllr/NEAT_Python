@@ -11,10 +11,8 @@ run_stat = RuntimeStatus()
 # entry point for program
 def main():
 
-    param = "xor"
-
-    if param or len(sys.argv) > 1:
-        #param = sys.argv[1]
+    if len(sys.argv) > 1:
+        param = sys.argv[1]
 
         if param == "xor":
 
@@ -82,3 +80,4 @@ def main():
     else:
         print("Invalid amount of parameters.")
 
+main()

@@ -1,0 +1,17 @@
+{
+    "c1": 1.0,
+    "c2": 1.0,
+    "c3": 0.4,
+    "species_similarity_threshold": 3.0,
+    "species_survival_rate": 50,
+    "elit_nets_amount": 2,
+    "stagnation_treshold": 25,
+    "mutation_offspring_rate": 80,
+    "crossover_offspring_rate": 20,
+    "weight_perturbation_prob": 30,
+    "weight_mutation_random_value_prob": 10,
+    "bias_weight_mutation_prob": 20,
+    "gene_disabled_rate": 50,
+    "new_neuron_prob": 25,
+    "new_connection_prob": 30
+}

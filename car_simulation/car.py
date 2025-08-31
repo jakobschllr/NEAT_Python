@@ -27,13 +27,15 @@ class Car():
         self.steering_tracker = {
             "amt": 0,
             "sum": 0,
-            "avg": 0
+            "avg": 0,
+            "counter": 0,
+            "last_angle": 0
         }
 
         self.obstacle_distance_tracker = {
             "amt": 0,
             "sum": 0,
-            "avg": 0
+            "avg": 0,
         }
 
 
@@ -64,15 +66,17 @@ class Car():
 
     def steer(self, value):
         # value goes from -1.0 (left) to 1.0 (right)
-        old_angle = self.angle
-        self.angle += value * math.pi / 5
-        self.update_steering_tracker(old_angle, self.angle)
+        self.angle += value * math.pi / 16
+        self.update_steering_tracker(self.angle)
 
-    def update_steering_tracker(self, old_angle, new_angle):
-        self.steering_tracker["sum"] += abs(old_angle - new_angle)
-        self.steering_tracker["amt"] += 1
-        self.steering_tracker["avg"] = self.steering_tracker["sum"] / self.steering_tracker["amt"]
-        print("Average Steering Change: ", self.steering_tracker["avg"])
+    def update_steering_tracker(self, current_angle):
+        self.steering_tracker["counter"] += 1
+        if self.steering_tracker["counter"] == 15:
+            self.steering_tracker["sum"] += abs(self.steering_tracker["last_angle"] - current_angle)
+            self.steering_tracker["amt"] += 1
+            self.steering_tracker["avg"] = self.steering_tracker["sum"] / self.steering_tracker["amt"]
+            self.steering_tracker["counter"] = 0
+            self.steering_tracker["last_angle"] = current_angle
 
     def get_sensor_data(self, environment, screen):
         sensor_data = []

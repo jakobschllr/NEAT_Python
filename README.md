@@ -29,8 +29,8 @@ First, I analyzed the average fitness levels of the fittest networks in each gen
 The average fitness of the best network is approx. at 80% after 100 Generations which in most cases is sufficient to solve XOR.
 
 
-Additionally, I analazed for 100 evolution processes how many generations it takes to reach a network with a fitness larger than 90%:
-
+Additionally, I analyzed for 100 evolution processes how many generations it takes to reach a network with a fitness larger than 90%:
+å
 ![Amount of generations for high fitness](assets/generations_amount_high_fitness.png)
 
 As expected with evolution-algorithms the results can be very different, due to the random nature of the initial weights and biases. While there are a few cases where it took more than 300 generations to find a sufficient network, in most cases the evolution was completed within 150 generations.
@@ -41,7 +41,7 @@ As expected with evolution-algorithms the results can be very different, due to 
 ### 2D-Car Simulation
 The second example for you to play around with is the training of networks to control a simple car in a 2D-Simulation. You can start the program with `python3 init_neat.py car`. Then draw a racetrack with your mouse and click on "Start Evolution".
 
-
+![2D Car simulation](assets/car_animation.gif)
 
 
 ## Use NEAT for your own problems

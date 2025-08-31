@@ -54,7 +54,6 @@ class SimulationHandler():
                     running = False
 
             running = False
-            current_time = time.time()
 
             # load current sensor data from cars
             for car in cars:
@@ -91,7 +90,6 @@ class SimulationHandler():
                     else:
                         car["stagnation_counter"] += 1
 
-                    # survival_time = current_time - start_time
             
                     # handle network fitness tracking
                     if car["car"].hit_obstacle:
@@ -103,7 +101,7 @@ class SimulationHandler():
                         # car["distance_traveled"] distance traveled euclidean
                         # survival_time
 
-                        car["net"].raw_fitness =  (checkpoints_reached + steering_fluidity + 0.7 * obstacle_distance) / 3
+                        car["net"].raw_fitness =  (1 * checkpoints_reached +  0.2 * steering_fluidity + 0.2 * obstacle_distance)
                         
                     elif car["stagnation_counter"] == 20:
                         car["distance_traveled"] = 0

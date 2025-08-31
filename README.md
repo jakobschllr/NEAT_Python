@@ -3,9 +3,20 @@
 ## Overview
 This project is a python implementation of the NEAT method (Neuro Evolution of Augmenting Topologies) by Stanley and Miikkulaien. NEAT can be used to find neural networks within an exploration space in order to solve predefined optimization problems. Besides default python libraries and numpy the projects does not use other ml-related dependencies.
 
-## Quick start with XOR or 2D-Car
-To try the algorithm you can choose one of two predefined problems to solve. The first one is XOR and the second one is a 2D-Car that learns to drive a racetrack in a 2D-Simulation. After downloading the repository execute `python3 init_neat.py xor` or `python3 init_neat.py car` to start the evolution process. To adjust the evolution process you can change the parameters in the config.json file (more details about this file later).
+## Quick start with Examples
 
+First of all fork the project with
+
+
+### XOR as a benchmark non-linear problem
+To try the algorithm you can choose one of two predefined problems to solve. Finding a network to solve XOR is a typical benchmark problem for measuring the performance of evolution-based machine learning models. To see the discovery process for xor start the program with `python3 init_neat.py xor`
+
+
+### 2D-Car Simulation
+The second example for you to play around with is the training of networks to control a simple car in a 2D-Simulation. You can start the program with `python3 init_neat.py car`. Then draw a racetrack with your mouse and click on "Start Evolution".
+
+
+To adjust the evolution process you can change the parameters in the config.json file (more details about this file later).
 
 
 ## Use NEAT for your own problems
@@ -20,6 +31,7 @@ population_handler = PopulationHandler(
                 run_stat=run_stat,
                 fitness_function=fitness_function_xor,
                 fitness_function_multiple_nets=True,
+                self.target_fitness = target_fitness
 )
 ```
 
@@ -27,7 +39,7 @@ population_handler = PopulationHandler(
 `input_neurons` and `output_neurons` is the amount of input and output neurons for all networks. This numbers depend on the problem you want to solve.
 `max_generations` defines the amount of total generations for the networks to evolve.
 `run_stat` expects an instance of the RuntimeStatus class from the neat_classes directory. This object is responsible for tracking data during the evolution.
-`fitness_function` is a function that you need to define based on the problem you want to solve. This is where you calculate how good a network performed when trying to solve your problem. Based on the problem you want to solve, you can have two different kinds of implementations for the fitness function. If your fitness function takes the whole current population and calculates the fitness of all networks at once (I used that for the 2D car animation, where I want all cars to move at the same time), your fitness function receives a list containing all networks of the current population. A network is an instance of the Network class from network.py. If you want to use this implementation, you need to set the parameter `fitness_function_multiple_nets` as True. The other case would be that your fitness function only calculates the fitness for one network at the time. In that case set `fitness_function_multiple_nets` to False. In both cases your fitness function needs to save the fitness for each network in the `raw_fitness` attribute of the network object.
+`fitness_function` is a function that you need to define based on the problem you want to solve. This is where you calculate how good a network performed when trying to solve your problem. Based on the problem you want to solve, you can have two different kinds of implementations for the fitness function. If your fitness function takes the whole current population and calculates the fitness of all networks at once (I used that for the 2D car animation, where I want all cars to move at the same time), your fitness function receives a list containing all networks of the current population. A network is an instance of the Network class from network.py. If you want to use this implementation, you need to set the parameter `fitness_function_multiple_nets` as True. The other case would be that your fitness function only calculates the fitness for one network at the time. In that case set `fitness_function_multiple_nets` to False. In both cases your fitness function needs to save the fitness for each network in the `raw_fitness` attribute of the network object. The parameter `target_fitness` is optional and let's you define a minimum fitness level for the best network. The evolution process stops once a network is found with this fitness level. The default value is set to 1.0.
 
 Here is an example for a fitness function that calculates the fitness for one network:
 ```

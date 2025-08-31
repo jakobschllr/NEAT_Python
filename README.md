@@ -5,7 +5,7 @@ This project is a python implementation of the NEAT method (Neuro Evolution of A
 
 ## Quick start with Examples
 
-### Installtion
+### Installation
 ```
 git clone https://github.com/jakobschllr/NEAT_Python.git
 cd NEAT_Python
@@ -18,11 +18,23 @@ The Parameters can be adjusted in the config.json (see explanations below)
 To try the algorithm you can choose one of two predefined problems to solve. Finding a network to solve XOR is a typical benchmark problem for measuring the performance of evolution-based machine learning models. To see the discovery process for xor start the program with `python3 init_neat.py xor`
 
 
+#### Performance Evaluation
+To measure the performance of my NEAT-implementation I did two differenz measurements.
+
+First, I analyzed the average fitness levels of the fittest networks in each generation for 100 evolution processes:
+![Average fitness best network](assets/average_fitness.png)
+
+
+Additionally, I analazed how many generations it takes for the evolution to reach a network with a fitness larger than 90% for 100 evolution processes:
+![Amount of generations for high fitness](assets/generations_amount_high_fitness.png)
+
+
+
+
 ### 2D-Car Simulation
 The second example for you to play around with is the training of networks to control a simple car in a 2D-Simulation. You can start the program with `python3 init_neat.py car`. Then draw a racetrack with your mouse and click on "Start Evolution".
 
 
-To adjust the evolution process you can change the parameters in the config.json file (more details about this file later).
 
 
 ## Use NEAT for your own problems

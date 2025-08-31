@@ -62,14 +62,6 @@ population_handler = PopulationHandler(
 | **fitness_function_multiple_nets** | Defines how the fitness function is applied: <br>• **True** → the fitness function takes the entire population at once (e.g., 2D car animation, where all cars run simultaneously). <br>• **False** → the fitness function evaluates one network at a time. |
 | **target_fitness** *(optional)* | Minimum fitness level for the best network. The evolution process stops once a network reaches this fitness level. Default: **1.0**. |
 
-
-
-`initial_net_amount` is the amount of networks in the ininital population. During the evolution the size of the population will not change dramatically from the size of the initial population.
-`input_neurons` and `output_neurons` is the amount of input and output neurons for all networks. This numbers depend on the problem you want to solve.
-`max_generations` defines the amount of total generations for the networks to evolve.
-`run_stat` expects an instance of the RuntimeStatus class from the neat_classes directory. This object is responsible for tracking data during the evolution.
-`fitness_function` is a function that you need to define based on the problem you want to solve. This is where you calculate how good a network performed when trying to solve your problem. Based on the problem you want to solve, you can have two different kinds of implementations for the fitness function. If your fitness function takes the whole current population and calculates the fitness of all networks at once (I used that for the 2D car animation, where I want all cars to move at the same time), your fitness function receives a list containing all networks of the current population. A network is an instance of the Network class from network.py. If you want to use this implementation, you need to set the parameter `fitness_function_multiple_nets` as True. The other case would be that your fitness function only calculates the fitness for one network at the time. In that case set `fitness_function_multiple_nets` to False. In both cases your fitness function needs to save the fitness for each network in the `raw_fitness` attribute of the network object. The parameter `target_fitness` is optional and let's you define a minimum fitness level for the best network. The evolution process stops once a network is found with this fitness level. The default value is set to 1.0.
-
 Here is an example for a fitness function that calculates the fitness for one network:
 ```
 def fitness_function_xor(net):

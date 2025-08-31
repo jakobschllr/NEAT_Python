@@ -5,7 +5,13 @@ This project is a python implementation of the NEAT method (Neuro Evolution of A
 
 ## Quick start with Examples
 
-First of all fork the project with
+### Installtion
+```
+git clone https://github.com/jakobschllr/NEAT_Python.git
+cd NEAT_Python
+```
+
+The Parameters can be adjusted in the config.json (see explanations below)
 
 
 ### XOR as a benchmark non-linear problem

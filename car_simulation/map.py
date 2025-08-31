@@ -37,7 +37,7 @@ class Map():
         # objects for start button
         btn_rect = pygame.Rect(1100, 30, 150, 30)
         font = pygame.font.SysFont(None, 24)
-        btn_text = font.render("Starte Evolution", True, (255,255,255))
+        btn_text = font.render("Start Evolution", True, (255,255,255))
 
         running = True
         drawing = False

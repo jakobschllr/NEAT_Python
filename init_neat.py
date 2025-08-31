@@ -3,6 +3,7 @@ from car_simulation.test import test_simulation
 from car_simulation.SimulationHandler import SimulationHandler
 from neat_classes.RuntimeStatus import RuntimeStatus
 import sys
+import numpy as np
 
 # Object to track runtime status
 run_stat = RuntimeStatus()
@@ -11,8 +12,10 @@ run_stat = RuntimeStatus()
 # entry point for program
 def main():
 
-    if len(sys.argv) > 1:
-        param = sys.argv[1]
+    param = "xor"
+
+    if param or len(sys.argv) > 1:
+        #param = sys.argv[1]
 
         if param == "xor":
 
@@ -42,6 +45,8 @@ def main():
             )
             population_handler.initial_population()
             best_net = population_handler.start_evolution_process()
+
+
 
             print("Best network: ", best_net)
             print("Input   |   Raw Output   |   Rounded Ouput")
@@ -78,4 +83,3 @@ def main():
     else:
         print("Invalid amount of parameters.")
 
-main()

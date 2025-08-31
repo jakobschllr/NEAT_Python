@@ -3,8 +3,39 @@
 ## Overview
 This project is a python implementation of the NEAT method (Neuro Evolution of Augmenting Topologies) by Stanley and Miikkulaien. NEAT can be used to find neural networks within an exploration space in order to solve predefined optimization problems. Besides default python libraries and numpy the projects does not use other ml-related dependencies.
 
-## Quick start
-To try the algorithm you can choose one of two predefined problems to solve. The first one is XOR and the second one is a 2D-Car that learns to drive a racetrack in a pygame environment. After downloading the repository execute `python3 init_neat.py xor` or `python3 init_neat.py car` to start the evolution process. To adjust the evolution process you can change the parameters in the config.json file (more details about this file later).
+## Quick start with Examples
+
+### Installation
+```
+git clone https://github.com/jakobschllr/NEAT_Python.git
+cd NEAT_Python
+```
+
+The Parameters can be adjusted in the config.json (see explanations below)
+
+
+### XOR as a benchmark non-linear problem
+To try the algorithm you can choose one of two predefined problems to solve. Finding a network to solve XOR is a typical benchmark problem for measuring the performance of evolution-based machine learning models. To see the discovery process for xor start the program with `python3 init_neat.py xor`
+
+
+#### Performance Evaluation
+To measure the performance of my NEAT-implementation I did two differenz measurements.
+
+First, I analyzed the average fitness levels of the fittest networks in each generation for 100 evolution processes:
+![Average fitness best network](assets/average_fitness.png)
+
+
+Additionally, I analazed how many generations it takes for the evolution to reach a network with a fitness larger than 90% for 100 evolution processes:
+![Amount of generations for high fitness](assets/generations_amount_high_fitness.png)
+
+
+
+
+### 2D-Car Simulation
+The second example for you to play around with is the training of networks to control a simple car in a 2D-Simulation. You can start the program with `python3 init_neat.py car`. Then draw a racetrack with your mouse and click on "Start Evolution".
+
+
+
 
 ## Use NEAT for your own problems
 To use this NEAT implementation on your own set of problems you have to create an instance of the `PopulationHandler` class which is localed in the neat_classes directory. This class requires initial parameters that need to be defined:
@@ -18,14 +49,18 @@ population_handler = PopulationHandler(
                 run_stat=run_stat,
                 fitness_function=fitness_function_xor,
                 fitness_function_multiple_nets=True,
+                self.target_fitness = target_fitness
 )
 ```
-
-`initial_net_amount` is the amount of networks in the ininital population. During the evolution the size of the population will not change dramatically from the size of the initial population.
-`input_neurons` and `output_neurons` is the amount of input and output neurons for all networks. This numbers depend on the problem you want to solve.
-`max_generations` defines the amount of total generations for the networks to evolve.
-`run_stat` expects an instance of the RuntimeStatus class from the neat_classes directory. This object is responsible for tracking data during the evolution.
-`fitness_function` is a function that you need to define based on the problem you want to solve. This is where you calculate how good a network performed when trying to solve your problem. Based on the problem you want to solve, you can have two different kinds of implementations for the fitness function. If your fitness function takes the whole current population and calculates the fitness of all networks at once (I used that for the 2D car animation, where I want all cars to move at the same time), your fitness function receives a list containing all networks of the current population. A network is an instance of the Network class from network.py. If you want to use this implementation, you need to set the parameter `fitness_function_multiple_nets` as True. The other case would be that your fitness function only calculates the fitness for one network at the time. In that case set `fitness_function_multiple_nets` to False. In both cases your fitness function needs to save the fitness for each network in the `raw_fitness` attribute of the network object.
+| Parameter                     | Description |
+|--------------------------------|-------------|
+| **initial_net_amount**         | Number of networks in the initial population. During evolution, the population size will not change dramatically from this initial size. |
+| **input_neurons / output_neurons** | Number of input and output neurons for all networks. These numbers depend on the problem you want to solve. |
+| **max_generations**            | Number of total generations for the networks to evolve. |
+| **run_stat**                   | Expects an instance of the `RuntimeStatus` class (from `neat_classes`). This object is responsible for tracking data during the evolution. |
+| **fitness_function**           | A user-defined function that evaluates how well a network performs on your problem. It must assign a value to the `raw_fitness` attribute of each network. |
+| **fitness_function_multiple_nets** | Defines how the fitness function is applied: <br>• **True** → the fitness function takes the entire population at once (e.g., 2D car animation, where all cars run simultaneously). <br>• **False** → the fitness function evaluates one network at a time. |
+| **target_fitness** *(optional)* | Minimum fitness level for the best network. The evolution process stops once a network reaches this fitness level. Default: **1.0**. |
 
 Here is an example for a fitness function that calculates the fitness for one network:
 ```

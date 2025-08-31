@@ -25,7 +25,7 @@ species_similarity_threshold = config["species_similarity_threshold"] # threshol
 stagnation_treshold = config["stagnation_treshold"] # amount of generations a species survives without fitness improvements
 
 class PopulationHandler():
-    def __init__(self, initial_net_amount, input_neurons, output_neurons, max_generations, fitness_function, run_stat, fitness_function_multiple_nets):
+    def __init__(self, initial_net_amount, input_neurons, output_neurons, max_generations, fitness_function, run_stat, fitness_function_multiple_nets, target_fitness=1.0):
         self.initial_net_amount = initial_net_amount
         self.network_amount = initial_net_amount
         self.input_neurons = input_neurons
@@ -37,6 +37,8 @@ class PopulationHandler():
         self.fitness_function_multiple_nets = fitness_function_multiple_nets
         self.run_stat = run_stat
         self.current_population = []
+        self.generation_counter = 1
+        self.target_fitness = target_fitness
 
     def calculate_raw_fitness(self):
         # fitness function that takes whole population
@@ -69,27 +71,33 @@ class PopulationHandler():
 
     def start_evolution_process(self):
 
-        generation_counter = 1
         best_network = None
-        while generation_counter < self.max_generations:
+        while self.generation_counter < self.max_generations and (best_network == None or best_network.raw_fitness < self.target_fitness):
 
             # get sum of all average adjusted fitnesses of all species
             adjusted_fitness_all_species = 0
-            for i in range(len(self.species)):
+            for species in self.species[:]:
+
+                species_removed = False
+
+                if len(species.networks) == 0:
+                    self.species.remove(species)
+                    species_removed = True
+                else:
+                    species.calculate_fitness(self.run_stat)
+                    species.update_representative()
 
                 #adjust stagnation counter for species
-                self.species[i].adjust_stagnation_counter()
+                species.adjust_stagnation_counter()
 
                 #if species fitness stagnated to long remove species
-                if self.species[i].stagnation_counter == stagnation_treshold:
-                    self.species[i] = None
+                if species.stagnation_counter == stagnation_treshold and not species_removed:
+                    self.species.remove(species)
 
                 else:
-                #remove low performing networks
-                    self.species[i].remove_lowperforming_networks()
-                    adjusted_fitness_all_species += self.species[i].total_adjusted_fitness       
-
-            self.species = [species for species in self.species if species is not None]
+                #remove low performing networks from species
+                    species.remove_lowperforming_networks()
+                    adjusted_fitness_all_species += species.total_adjusted_fitness     
 
             new_population = []
 
@@ -112,7 +120,6 @@ class PopulationHandler():
                 )
 
                 if children != None and elit_networks != None:
-                    #print("Species created ", len(children), " children")
                     new_population = new_population + children
                     for net in elit_networks:
                         if best_network == None or net.raw_fitness > best_network.raw_fitness:
@@ -132,7 +139,6 @@ class PopulationHandler():
 
                 for species in self.species:
                     compatibility_dist = species.calculate_compatibility_distance(network)
-                    #print("Network ", network, " has compatibility distance ", compatibility_dist)
                     if compatibility_dist < species_similarity_threshold:
                         species.add_network(network)
                         found_species = True
@@ -140,23 +146,14 @@ class PopulationHandler():
                 if not found_species:
                     # create new species
                     new_species = Species(c1, c2, c3, species_survival_rate)
-                    #print("Network ", network, " added to new Species because ", compatibility_dist,  " > ", species_similarity_threshold)
                     new_species.add_network(network)
-                    self.species.append(new_species)
+                    self.species.append(new_species)                
 
-            # nicht verwendete Spezien löschen
-            self.species = [s for s in self.species if len(s.networks) > 0]
-            
-            # update average adjusted fitness in each species
-            for species in self.species:
-                species.calculate_fitness(self.run_stat)
-                species.update_representative()
-                
-
-            self.run_stat.update(generation_counter, len(self.species), len(new_population), best_network)
+            self.run_stat.update(self.generation_counter, len(self.species), len(new_population), best_network)
             self.run_stat.print()
+ 
+            self.generation_counter += 1
 
-            generation_counter += 1
 
         print("Best network after ", self.max_generations, " generations.")
         return best_network

@@ -103,7 +103,7 @@ class SimulationHandler():
                         # car["distance_traveled"] distance traveled euclidean
                         # survival_time
 
-                        car["net"].raw_fitness =  checkpoints_reached + steering_fluidity + obstacle_distance
+                        car["net"].raw_fitness =  checkpoints_reached + steering_fluidity + 0.7 * obstacle_distance
                         
                     elif car["stagnation_counter"] == 20:
                         car["distance_traveled"] = 0

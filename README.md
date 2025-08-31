@@ -20,14 +20,15 @@ To try the algorithm you can choose one of two predefined problems to solve. Fin
 
 
 #### Performance Evaluation
-To measure the performance of my NEAT-implementation I did two differenz measurements.
+To measure the performance of my NEAT-implementation I did two different measurements for populations of 250 networks.
 
 First, I analyzed the average fitness levels of the fittest networks in each generation for 100 evolution processes:
 ![Average fitness best network](assets/average_fitness.png)
 
 
-Additionally, I analazed how many generations it takes for the evolution to reach a network with a fitness larger than 90% for 100 evolution processes:
+Additionally, I analazed for 100 evolution processes how many generations it takes to reach a network with a fitness larger than 90%:
 ![Amount of generations for high fitness](assets/generations_amount_high_fitness.png)
+As expected with evulotion-algorithms the results can be very different, due to the random nature of the initial weights and biases.
 
 
 
@@ -124,12 +125,18 @@ To tweak the evolution process you can adjust the parameter settings in the conf
     "new_connection_prob": 30
 }
 ```
-The parameters `c1`, `c2` and `c3` influence the calculation of the compatibilty distance between a new network that was created by mutation or crossover with another network that is the representative of a species. The compatibilty distance evaluates how similar the tologogy of the two networks are based on the amount of adjoint genes, excess genes an the average weight difference of matching genes. `c1` controls how much influence the number of ajdoint genes has, `c2` controls the influence of the number of excess genes and `c3` controls the influence of the average weight difference of matching genes. The `species_similarity_threshold` defines the treshold for networks to be in the same species. If the compatibilty distance of a new network and the representative of a species is above the treshold, the network belongs to the according species. If the compatibilty distance is lower than the threshold the network is compared to the representative of the next species. If the network does not belong to any existing species, it is added to a new species.
-
-`species_survival_rate` defines the percentage of best networks in each generation that are not deleted. These remaining networks are used afterwards to create new networks with mutations and crossovers. `elit_nets_amount` is the amount of top networks that are copied to the next generation without applying mutations. `stagnation_treshold` is the number of generations a species can survive without fitness improvements.
-
-The parameters `mutation_offspring_rate` and `crossover_offspring_rate` define how many new networks are created by mutations (of neurons weight, biases) and by crossovers of networks. Both parameters need to add up to 100 %.
-
-`weight_perturbation_prob` defines the probability of a network being mutated by perturbating a random connection weight within the network. `weight_mutation_random_value_prob` is the probabilty of a mutation by setting a new random value for one connection weight. `bias_weight_mutation_prob` defines the probability of mutating a network by perturbating the bias in one of the network's neurons.
-
-`gene_disabled_rate` defines the probabilty that a disabled connection stays disabled in a child network that is created during a crossover. Connections are disabled when a hidden neuron splits up an existing connection within a network. `new_neuron_prob` is the probability that a new hidden neuron is added somewhere in the network and `new_connection_prob` is the probability that a new connection between existing neurons is created in the network.
+| Parameter                        | Description |
+|----------------------------------|-------------|
+| **c1, c2, c3**                   | Influence the calculation of the compatibility distance between a new network (created by mutation or crossover) and the representative of a species. <br>• **c1** → influence of the number of matching genes. <br>• **c2** → influence of the number of excess genes. <br>• **c3** → influence of the average weight difference of matching genes. |
+| **species_similarity_threshold**  | Threshold for networks to belong to the same species. If the compatibility distance is above this threshold, the network forms a new species. |
+| **species_survival_rate**         | Percentage of top networks in each generation that are not deleted. Remaining networks are used for mutation and crossover. |
+| **elit_nets_amount**              | Number of top networks copied to the next generation without mutation. |
+| **stagnation_threshold**           | Number of generations a species can survive without fitness improvements. |
+| **mutation_offspring_rate**       | Percentage of new networks created via mutation (weights, biases). |
+| **crossover_offspring_rate**      | Percentage of new networks created via crossover. Must add up to 100% with `mutation_offspring_rate`. |
+| **weight_perturbation_prob**      | Probability of perturbing a random connection weight within a network. |
+| **weight_mutation_random_value_prob** | Probability of mutating a connection weight by setting a new random value. |
+| **bias_weight_mutation_prob**     | Probability of perturbing the bias of a neuron in a network. |
+| **gene_disabled_rate**            | Probability that a disabled connection stays disabled in a child network after crossover. Disabled connections occur when a hidden neuron splits an existing connection. |
+| **new_neuron_prob**               | Probability of adding a new hidden neuron to the network. |
+| **new_connection_prob**           | Probability of adding a new connection between existing neurons. |

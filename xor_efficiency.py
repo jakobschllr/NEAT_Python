@@ -27,14 +27,14 @@ def main():
 
 
         population_handler = PopulationHandler(
-            initial_net_amount=150,
+            initial_net_amount=250,
             input_neurons=2,
             output_neurons=1,
-            max_generations=300,
+            max_generations=100,
             fitness_function=fitness_function_xor,
             run_stat=run_stat,
             fitness_function_multiple_nets=False, # if True, then fitness function calculcates fitness for all networks, if False then only for one network
-            target_fitness=0.9
+            target_fitness=1.0
         )
         population_handler.initial_population()
         best_net = population_handler.start_evolution_process()
@@ -55,7 +55,7 @@ def calculate_avg_fitness_after_n_generations():
     Calculates the average fitness of the best networks in each generation
     """
     sum_vector = None
-    sample_size = 20
+    sample_size = 100
 
     for _ in range(sample_size):
         main()
@@ -105,4 +105,4 @@ def calc_generation_amount_for_high_fitness():
 
     print("Avergage generation amount to reach fitness level: ", sum(data) / sample_size)
 
-calc_generation_amount_for_high_fitness()
+calculate_avg_fitness_after_n_generations()

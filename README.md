@@ -23,12 +23,15 @@ To try the algorithm you can choose one of two predefined problems to solve. Fin
 To measure the performance of my NEAT-implementation I did two different measurements for populations of 250 networks.
 
 First, I analyzed the average fitness levels of the fittest networks in each generation for 100 evolution processes:
+
 ![Average fitness best network](assets/average_fitness.png)
 
 
 Additionally, I analazed for 100 evolution processes how many generations it takes to reach a network with a fitness larger than 90%:
+
 ![Amount of generations for high fitness](assets/generations_amount_high_fitness.png)
-As expected with evulotion-algorithms the results can be very different, due to the random nature of the initial weights and biases.
+
+As expected with evolution-algorithms the results can be very different, due to the random nature of the initial weights and biases.
 
 
 

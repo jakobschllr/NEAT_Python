@@ -52,6 +52,17 @@ population_handler = PopulationHandler(
                 self.target_fitness = target_fitness
 )
 ```
+| Parameter                     | Description |
+|--------------------------------|-------------|
+| **initial_net_amount**         | Number of networks in the initial population. During evolution, the population size will not change dramatically from this initial size. |
+| **input_neurons / output_neurons** | Number of input and output neurons for all networks. These numbers depend on the problem you want to solve. |
+| **max_generations**            | Number of total generations for the networks to evolve. |
+| **run_stat**                   | Expects an instance of the `RuntimeStatus` class (from `neat_classes`). This object is responsible for tracking data during the evolution. |
+| **fitness_function**           | A user-defined function that evaluates how well a network performs on your problem. It must assign a value to the `raw_fitness` attribute of each network. |
+| **fitness_function_multiple_nets** | Defines how the fitness function is applied: <br>• **True** → the fitness function takes the entire population at once (e.g., 2D car animation, where all cars run simultaneously). <br>• **False** → the fitness function evaluates one network at a time. |
+| **target_fitness** *(optional)* | Minimum fitness level for the best network. The evolution process stops once a network reaches this fitness level. Default: **1.0**. |
+
+
 
 `initial_net_amount` is the amount of networks in the ininital population. During the evolution the size of the population will not change dramatically from the size of the initial population.
 `input_neurons` and `output_neurons` is the amount of input and output neurons for all networks. This numbers depend on the problem you want to solve.

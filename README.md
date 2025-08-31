@@ -26,12 +26,14 @@ First, I analyzed the average fitness levels of the fittest networks in each gen
 
 ![Average fitness best network](assets/average_fitness.png)
 
+The average fitness of the best network is approx. at 80% after 100 Generations which in most cases is sufficient to solve XOR.
+
 
 Additionally, I analazed for 100 evolution processes how many generations it takes to reach a network with a fitness larger than 90%:
 
 ![Amount of generations for high fitness](assets/generations_amount_high_fitness.png)
 
-As expected with evolution-algorithms the results can be very different, due to the random nature of the initial weights and biases.
+As expected with evolution-algorithms the results can be very different, due to the random nature of the initial weights and biases. While there are a few cases where it took more than 300 generations to find a sufficient network, in most cases the evolution was completed within 150 generations.
 
 
 
